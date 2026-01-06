@@ -10,13 +10,13 @@ data "archive_file" "lambda_zip" {
 
 
 resource "aws_iam_role" "lambda_exec" {
-  name = "auth_lambda_role"
+  name = "tc-fiap-auth-role-${var.environment}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "lambda.amazonaws.com" }
     }]
   })
@@ -29,7 +29,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 
 
 resource "aws_lambda_function" "auth_lambda" {
-  function_name = "tech-challenge-auth"
+  function_name = "tc-fiap-auth-${var.environment}"
   runtime       = "nodejs20.x"
   handler       = "handler.handler"
   role          = aws_iam_role.lambda_exec.arn
@@ -37,22 +37,27 @@ resource "aws_lambda_function" "auth_lambda" {
   filename         = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 
-  timeout     = 10 
+  timeout     = 10
   memory_size = 128
 
   environment {
     variables = {
-      DB_HOST     = var.db_host   
+      DB_HOST     = var.db_host
       DB_USER     = var.db_user
       DB_PASSWORD = var.db_password
       DB_NAME     = "tech_challenge_fiap"
       JWT_SECRET  = "seu_segredo_super_secreto"
+      ENVIRONMENT = var.environment
     }
+  }
+  tags = {
+    Environment = var.environment
+    Name        = "tc-fiap-auth-${var.environment}"
   }
 }
 
 resource "aws_apigatewayv2_api" "lambda_api" {
-  name          = "auth-http-api"
+  name          = "tc-fiap-auth-api-${var.environment}"
   protocol_type = "HTTP"
 }
 
