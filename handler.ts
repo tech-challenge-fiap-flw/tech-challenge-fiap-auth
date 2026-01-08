@@ -1,4 +1,4 @@
-import 'newrelic';
+import newrelic from 'newrelic';
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { z } from 'zod';
@@ -43,7 +43,7 @@ function isValidCPF(cpf: string): boolean {
   return v1 === parseInt(s.charAt(9)) && v2 === parseInt(s.charAt(10));
 }
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+const mainHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     if (!event.body) {
       return { statusCode: 400, body: JSON.stringify({ message: 'Body is required' }) };
@@ -107,9 +107,14 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
   } catch (error) {
     console.error('Erro na Lambda:', error);
+    
+    newrelic.noticeError(error as Error);
+    
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'Internal Server Error' })
     };
   }
 };
+
+export const handler = newrelic.setLambdaHandler(mainHandler);
