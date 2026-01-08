@@ -86,6 +86,12 @@ resource "aws_lambda_function" "auth_lambda" {
       DB_PORT     = var.db_port
       JWT_SECRET  = var.jwt_secret
       ENVIRONMENT = var.environment
+
+      NEW_RELIC_LICENSE_KEY = var.new_relic_license_key
+      NEW_RELIC_APP_NAME    = "tc-fiap-auth-${var.environment}"
+      NEW_RELIC_NO_CONFIG_FILE = "true"
+      NEW_RELIC_DISTRIBUTED_TRACING_ENABLED = "true"
+      NEW_RELIC_LOG = "stdout"
     }
   }
   tags = {

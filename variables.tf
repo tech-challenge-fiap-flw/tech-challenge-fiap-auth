@@ -39,3 +39,9 @@ variable "db_port" {
   type        = number
   default     = 3306
 }
+
+variable "new_relic_license_key" {
+  description = "Chave de licença do New Relic (Ingest License)"
+  type        = string
+  sensitive   = true
+}

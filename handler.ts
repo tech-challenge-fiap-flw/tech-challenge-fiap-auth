@@ -1,3 +1,5 @@
+import 'newrelic';
+
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { z } from 'zod';
 import jwt from 'jsonwebtoken';
