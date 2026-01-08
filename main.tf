@@ -54,8 +54,8 @@ resource "aws_lambda_function" "auth_lambda" {
       DB_HOST     = var.db_host
       DB_USER     = var.db_user
       DB_PASSWORD = var.db_password
-      DB_NAME     = "tech_challenge_fiap"
-      JWT_SECRET  = "seu_segredo_super_secreto"
+      DB_NAME     = var.db_name
+      JWT_SECRET  = var.jwt_secret
       ENVIRONMENT = var.environment
     }
   }
