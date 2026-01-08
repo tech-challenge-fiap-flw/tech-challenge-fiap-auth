@@ -55,6 +55,7 @@ resource "aws_lambda_function" "auth_lambda" {
       DB_USER     = var.db_user
       DB_PASSWORD = var.db_password
       DB_NAME     = var.db_name
+      DB_PORT     = var.db_port
       JWT_SECRET  = var.jwt_secret
       ENVIRONMENT = var.environment
     }
@@ -96,6 +97,4 @@ resource "aws_lambda_permission" "api_gw" {
   source_arn    = "${aws_apigatewayv2_api.lambda_api.execution_arn}/*/*"
 }
 
-variable "db_host" {}
-variable "db_user" {}
-variable "db_password" {}
+# Database / secrets variables moved to variables.tf

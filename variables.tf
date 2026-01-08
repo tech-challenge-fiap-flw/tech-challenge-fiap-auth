@@ -33,3 +33,9 @@ variable "jwt_secret" {
   type        = string
   default     = "AUTH_JWT_TECH_CHALLENGE_FIAP"
 }
+
+variable "db_port" {
+  description = "Database port"
+  type        = number
+  default     = 3306
+}
