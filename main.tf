@@ -72,6 +72,11 @@ resource "aws_lambda_function" "auth_lambda" {
   timeout     = 10
   memory_size = 128
 
+  depends_on = [
+    aws_iam_role_policy.kms_decrypt_permission,
+    aws_iam_role_policy_attachment.lambda_policy
+  ]
+
   environment {
     variables = {
       DB_HOST     = var.db_host
