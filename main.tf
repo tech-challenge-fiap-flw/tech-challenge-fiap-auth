@@ -7,6 +7,7 @@ terraform {
     encrypt        = true
   }
 }
+
 provider "aws" {
   region = "us-east-1"
 }
@@ -17,6 +18,7 @@ data "archive_file" "lambda_zip" {
   output_path = "${path.module}/lambda_function.zip"
 }
 
+# --- IAM ROLE & POLICIES ---
 
 resource "aws_iam_role" "lambda_exec" {
   name = "tc-fiap-auth-role-${var.environment}"
@@ -41,8 +43,11 @@ resource "aws_iam_role_policy" "kms_decrypt_permission" {
       {
         Sid      = "AllowKMSDecrypt"
         Effect   = "Allow"
-        Action   = ["kms:Decrypt"]
-        Resource = "arn:aws:kms:us-east-1:790144488941:key/d0db0b51-919b-4951-8e27-e278ca707bf7"
+        Action   = [
+          "kms:Decrypt",
+          "kms:GenerateDataKey"
+        ]
+        Resource = "*" 
       }
     ]
   })
@@ -53,6 +58,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+# --- LAMBDA FUNCTION ---
 
 resource "aws_lambda_function" "auth_lambda" {
   function_name = "tc-fiap-auth-${var.environment}"
@@ -82,6 +88,8 @@ resource "aws_lambda_function" "auth_lambda" {
     Name        = "tc-fiap-auth-${var.environment}"
   }
 }
+
+# --- API GATEWAY ---
 
 resource "aws_apigatewayv2_api" "lambda_api" {
   name          = "tc-fiap-auth-api-${var.environment}"
