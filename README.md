@@ -1,33 +1,33 @@
 # tech-challenge-fiap-auth
 
-Authentication Lambda function for FIAP Tech Challenge.
+Função Lambda de autenticação para o FIAP Tech Challenge.
 
-## Setup
+## Configuração
 
-1. Clone the repository.
-2. Install dependencies: `npm install`
-3. Build: `npm run build`
+1. Clone o repositório.
+2. Instale as dependências: `npm install`
+3. Compile: `npm run build`
 
-## Deployment
+## Implantação
 
-This project uses GitHub Actions for automatic deployment to AWS.
+Este projeto usa GitHub Actions para implantação automática na AWS.
 
-### Required GitHub Secrets
+### Segredos Obrigatórios do GitHub
 
-Set the following secrets in your GitHub repository settings:
+Defina os seguintes segredos nas configurações do seu repositório:
 
-- `AWS_ACCESS_KEY_ID`: Your AWS access key ID
-- `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key
-- `DB_HOST`: Database host
-- `DB_USER`: Database user
-- `DB_PASSWORD`: Database password
+- `AWS_ACCESS_KEY_ID`: Seu Access Key ID da AWS
+- `AWS_SECRET_ACCESS_KEY`: Sua Secret Access Key da AWS
+- `DB_HOST`: Host do banco de dados
+- `DB_USER`: Usuário do banco de dados
+- `DB_PASSWORD`: Senha do banco de dados
 
-### Deployment Process
+### Processo de Implantação
 
-On push to the `main` branch, the workflow will:
-- Build the TypeScript code
-- Deploy the Lambda function and API Gateway using Terraform
+Ao fazer push para a branch `main`, o workflow irá:
+- Compilar o código TypeScript
+- Implantar a função Lambda e o API Gateway usando Terraform
 
-## Local Development
+## Desenvolvimento Local
 
-To test locally, ensure you have the environment variables set.
+Para testar localmente, certifique-se de que as variáveis de ambiente estejam configuradas.
