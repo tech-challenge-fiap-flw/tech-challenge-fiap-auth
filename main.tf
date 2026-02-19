@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "tech-challenge-fiap-terraform-state"
+    bucket         = "tech-challenge-fiap-tf-state"
     key            = "tech-challenge-fiap-auth/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "tech-challenge-fiap-terraform-locks"
+    use_lockfile   = true
     encrypt        = true
   }
 }
